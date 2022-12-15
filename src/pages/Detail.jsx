@@ -5,6 +5,7 @@ import { __delTodos } from "../redux/modules/todo";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { __patchTodos } from "../redux/modules/todo";
+import Comments from "../redux/components/Comments";
 
 const Detail = () => {
   const { id } = useParams();
@@ -89,6 +90,9 @@ const Detail = () => {
           {isEditing ? "완료하기" : "수정하기"}
         </button>
       </div>
+      <>
+        <Comments />
+      </>
     </div>
   );
 };

@@ -1,13 +1,13 @@
 {
   "posts": [
     {
-      "title": "123",
-      "body": "123",
+      "title": "qwe",
+      "body": "qwe",
       "id": 1
     },
     {
       "title": "123",
-      "body": "123",
+      "body": "332",
       "id": 2
     },
     {
@@ -28,8 +28,19 @@
   ],
   "comments": [
     {
-      "commentId": 1,
-      "body": "댓글글글"
+      "comment": "ssd",
+      "comentid": "12",
+      "id": 2
+    },
+    {
+      "comment": "123",
+      "comentid": "2",
+      "id": 5
+    },
+    {
+      "comment": "123",
+      "comentid": "2",
+      "id": 6
     }
   ]
 }

@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import todosSlice from "../modules/todo";
+import comment from "../modules/commentSlice";
 
 /*
 1. createStore()
@@ -15,7 +16,7 @@ import todosSlice from "../modules/todo";
 combineReducers은 여러 개의 독립적인 reducer의 반환 값을 하나의 상태 객체로 만들어줍니다.
 */
 const store = configureStore({
-  reducer: { todosSlice },
+  reducer: { todosSlice, comment },
 });
 
 export default store;

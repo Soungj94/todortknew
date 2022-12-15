@@ -117,7 +117,7 @@ export const todosSlice = createSlice({
     [__patchTodos.fulfilled]: (state, action) => {
       const newTodos = [...state.todolist];
       state.todolist = newTodos.map((todo) => {
-        if (todo.id === action.payload.id) {
+        if (todo.id === parseInt(action.payload.id)) {
           return {
             ...todo,
             title: action.payload.title,
