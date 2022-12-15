@@ -1,6 +1,6 @@
 // src/redux/modules/counter.js
 //초기상태값
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
@@ -34,16 +34,17 @@ export const __postTodos = createAsyncThunk(
     }
   }
 );
-export const __putTodos = createAsyncThunk(
-  "putTodos",
+export const __patchTodos = createAsyncThunk(
+  "patchTodos",
   async (payload, thunkAPI) => {
-    console.log(payload);
+    const { id, title, body } = payload;
     try {
-      const putData = await axios.put(
-        `http://localhost:3001/posts/${payload.id}`
-      );
-      //   console.log(getData);
-      return thunkAPI.fulfillWithValue(putData.data);
+      const patchData = await axios.patch(`http://localhost:3001/posts/${id}`, {
+        title,
+        body,
+      });
+      console.log(patchData);
+      return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       console.log(error);
       return thunkAPI.rejectWithValue(error);
@@ -110,16 +111,26 @@ export const todosSlice = createSlice({
       state.error = action.payload; // catch 된 error 객체를 state.error에 넣습니다.
       state.isLoading = false; // 에러가 발생했지만, 네트워크 요청이 끝났으니, false로 변경합니다.
     },
-    [__putTodos.pending]: (state) => {
+    [__patchTodos.pending]: (state) => {
       state.isLoading = true; // 네트워크 요청이 시작되면 로딩상태를 true로 변경합니다.
     },
-    [__putTodos.fulfilled]: (state, action) => {
-      state.todolist = state.todolist.map((data) =>
-        data.id === action.payload ? { ...data, isDone: !data.isDone } : data
-      ); // Store에 있는 todos에 서버에서 가져온 todos를 넣습니다.
+    [__patchTodos.fulfilled]: (state, action) => {
+      const newTodos = [...state.todolist];
+      state.todolist = newTodos.map((todo) => {
+        if (todo.id === action.payload.id) {
+          return {
+            ...todo,
+            title: action.payload.title,
+            body: action.payload.body,
+          };
+        } else {
+          return todo;
+        }
+      });
+      console.log(action.payload.id);
       state.isLoading = false; // 네트워크 요청이 끝났으니, false로 변경합니다.
     },
-    [__putTodos.rejected]: (state, action) => {
+    [__patchTodos.rejected]: (state, action) => {
       state.error = action.payload; // catch 된 error 객체를 state.error에 넣습니다.
       state.isLoading = false; // 에러가 발생했지만, 네트워크 요청이 끝났으니, false로 변경합니다.
     },
